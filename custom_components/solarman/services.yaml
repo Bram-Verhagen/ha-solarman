@@ -207,3 +207,39 @@ write_multiple_holding_registers:
           min: 0
           max: 65535
           mode: box
+
+battery_control:
+  name: Battery Control
+  description: Control battery charging/discharging for a specified duration
+  fields:
+    device:
+      name: Device
+      description: Device to control
+      example: "Inverter"
+      required: true
+      selector:
+        device:
+          filter:
+            - integration: solarman
+    power_watts:
+      name: Power (Watts)
+      description: Battery power in watts (positive=charge, negative=discharge)
+      example: 5000
+      required: true
+      selector:
+        number:
+          min: -24000
+          max: 24000
+          step: 100
+          mode: box
+    duration_minutes:
+      name: Duration (Minutes)
+      description: How long to run the control in minutes
+      example: 10
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 1440
+          step: 1
+          mode: box
