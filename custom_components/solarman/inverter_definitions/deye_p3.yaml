@@ -1517,46 +1517,6 @@ parameters:
           - bit: 1
             value: Load
 
-  - group: Battery Manual Control
-    update_interval: 30
-    items:
-      - name: "Manual Battery Power"
-        key: "manual_battery_power_number"
-        description: "Set battery charge/discharge power in watts (positive=charge, negative=discharge)"
-        platform: number
-        class: "power"
-        state_class: "measurement"
-        uom: "W"
-        icon: "mdi:battery-charging"
-        configurable:
-          min: -24000
-          max: 24000
-          step: 100
-          mode: box
-        virtual: true
-
-      - name: "Manual Control Duration"
-        key: "manual_control_duration_number"
-        description: "Duration for manual battery control in minutes"
-        platform: number
-        class: "duration"
-        state_class: "measurement"
-        uom: "min"
-        icon: "mdi:timer"
-        configurable:
-          min: 1
-          max: 1440
-          step: 1
-          mode: box
-        virtual: true
-
-      - name: "Manual Control Active"
-        key: "manual_control_active_switch"
-        description: "Activate manual battery control"
-        platform: switch
-        icon: "mdi:battery-sync"
-        virtual: true
-
   - group: Remote Control
     update_interval: 30
     items:

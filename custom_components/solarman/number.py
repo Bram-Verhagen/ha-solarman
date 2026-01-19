@@ -11,7 +11,6 @@ from .const import *
 from .common import *
 from .services import *
 from .entity import SolarmanWritableEntity, Coordinator
-from .virtual_entity import SolarmanVirtualNumberEntity
 
 _LOGGER = getLogger(__name__)
 
@@ -20,14 +19,8 @@ _PLATFORM = get_current_file_name(__name__)
 async def async_setup_entry(_: HomeAssistant, config_entry: ConfigEntry[Coordinator], async_add_entities: AddEntitiesCallback) -> bool:
     _LOGGER.debug(f"async_setup_entry: {config_entry.options}")
 
-    entities = []
-    for d in config_entry.runtime_data.device.profile.parser.get_entity_descriptions(_PLATFORM):
-        if d.get("virtual"):
-            entities.append(SolarmanVirtualNumberEntity(config_entry.runtime_data, d).init())
-        else:
-            entities.append(SolarmanNumberEntity(config_entry.runtime_data, d).init())
-    
-    async_add_entities(entities)
+    async_add_entities(SolarmanNumberEntity(config_entry.runtime_data, d).init() for d in config_entry.runtime_data.device.profile.parser.get_entity_descriptions(_PLATFORM))
+
     return True
 
 async def async_unload_entry(_: HomeAssistant, config_entry: ConfigEntry[Coordinator]) -> bool:
