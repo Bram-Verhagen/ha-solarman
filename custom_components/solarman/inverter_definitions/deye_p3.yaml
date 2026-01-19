@@ -1584,22 +1584,52 @@ parameters:
             value: "Power + SOC"
 
       - name: "Battery Power Control"
+        description: "Set battery charge/discharge power in watts (positive=charge, negative=discharge)"
         platform: number
         class: "power"
         state_class: "measurement"
-        uom: "%"
-        scale: 0.1
+        uom: "W"
         rule: 2
         registers: [0x0455]
         icon: "mdi:battery-charging"
         configurable:
-          min: -120
-          max: 120
-          step: 0.1
+          min: -24000
+          max: 24000
+          step: 100
           mode: box
         range:
           min: -1200
           max: 1200
+        scale_entity: "Device Rated Power"
+        scale_factor: 0.001
+        calculation: "(input_watts / rated_power_watts) * 1000"
+
+      - name: "Battery Control Duration"
+        platform: number
+        class: "duration"
+        state_class: "measurement"
+        uom: "min"
+        rule: 1
+        registers: [0x044D]
+        icon: "mdi:timer"
+        configurable:
+          min: 1
+          max: 300
+          step: 1
+          mode: box
+        range:
+          min: 60
+          max: 18000
+        scale: 60
+
+      - name: "Battery Control Active"
+        platform: switch
+        rule: 1
+        registers: [0x044C, 0x0450, 0x0451]
+        icon: "mdi:battery-sync"
+        value:
+          on: [0x0001, 0x0001, 0x0002]
+          off: [0x0000, 0x0000, 0x0000]
 
   - group: BMS
     items:
