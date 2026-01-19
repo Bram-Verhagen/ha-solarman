@@ -1517,6 +1517,90 @@ parameters:
           - bit: 1
             value: Load
 
+  - group: Remote Control
+    update_interval: 30
+    items:
+      - name: "Remote Mode Enable"
+        platform: "select"
+        rule: 1
+        registers: [0x044C]
+        icon: "mdi:remote"
+        lookup:
+          - key: 0x0000
+            value: "Disabled"
+          - key: 0x0001
+            value: "Remote Mode 1"
+          - key: 0x0002
+            value: "Remote Mode 2"
+          - key: 0x0003
+            value: "Remote Mode 3"
+
+      - name: "Remote Mode Watchdog"
+        platform: number
+        class: "duration"
+        state_class: "measurement"
+        uom: "s"
+        rule: 1
+        registers: [0x044D]
+        icon: "mdi:timer"
+        configurable:
+          min: 10
+          max: 18000
+          mode: box
+        range:
+          min: 10
+          max: 18000
+
+      - name: "Output Power Control Domain"
+        platform: "select"
+        rule: 1
+        registers: [0x0450]
+        icon: "mdi:power-settings"
+        lookup:
+          - key: 0x0000
+            value: "AC Side"
+          - key: 0x0001
+            value: "Battery Side"
+          - key: 0x0002
+            value: "Grid Side"
+
+      - name: "Battery Side Control"
+        platform: "select"
+        rule: 1
+        registers: [0x0451]
+        icon: "mdi:battery-settings"
+        lookup:
+          - key: 0x0000
+            value: "Voltage Priority"
+          - key: 0x0001
+            value: "Current Priority"
+          - key: 0x0002
+            value: "Power Priority"
+          - key: 0x0003
+            value: "SOC"
+          - key: 0x0004
+            value: "Voltage + Current"
+          - key: 0x0005
+            value: "Power + SOC"
+
+      - name: "Battery Power Control"
+        platform: number
+        class: "power"
+        state_class: "measurement"
+        uom: "%"
+        scale: 0.1
+        rule: 2
+        registers: [0x0455]
+        icon: "mdi:battery-charging"
+        configurable:
+          min: -120
+          max: 120
+          step: 0.1
+          mode: box
+        range:
+          min: -1200
+          max: 1200
+
   - group: BMS
     items:
       - name: "Battery BMS Charging Voltage"
