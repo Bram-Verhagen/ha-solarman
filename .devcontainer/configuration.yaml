@@ -1,0 +1,13 @@
+homeassistant:
+  name: Solarman dev
+  unit_system: metric
+  time_zone: Europe/Amsterdam
+
+frontend:
+config:
+http:
+
+logger:
+  default: warning
+  logs:
+    custom_components.solarman: debug

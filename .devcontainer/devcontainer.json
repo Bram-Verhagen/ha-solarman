@@ -1,0 +1,25 @@
+{
+  "name": "ha-solarman",
+  "image": "mcr.microsoft.com/devcontainers/python:3.14-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "mounts": [
+    "source=ha-solarman-kiro-history,target=/home/vscode/.kiro,type=volume"
+  ],
+  "postCreateCommand": "python3 -m venv ~/.venv && ~/.venv/bin/pip install --upgrade pip homeassistant aiofiles && mkdir -p ~/ha-config/custom_components && cp .devcontainer/configuration.yaml ~/ha-config/configuration.yaml && ln -sfn \"$PWD/custom_components/solarman\" ~/ha-config/custom_components/solarman",
+  "postStartCommand": "sudo mkdir -p /home/vscode/.kiro && sudo chown -R vscode:vscode /home/vscode/.kiro",
+  "forwardPorts": [8123],
+  "portsAttributes": {
+    "8123": {
+      "label": "Home Assistant",
+      "onAutoForward": "notify"
+    }
+  },
+  "remoteUser": "vscode"
+}
